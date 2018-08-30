@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/rhel7
 MAINTAINER DeployHub
-ARG BUILDNUM=1196
+ENV BUILDNUM=1196
 
 RUN useradd -ms /bin/bash omreleng
 RUN yum-config-manager --enable rhel-7-server-extras-rpms; yum-config-manager --enable rhel-server-rhscl-7-rpms;yum -y update;rpm -Va;yum -y install sudo iputils openssh-clients python-requests ansible; yum -y install https://updates.atomicorp.com/channels/atomic/centos/7/x86_64/RPMS/atomic-release-1.0-21.el7.art.noarch.rpm; yum -y install openvas-smb;
