@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+   deployhub_rproxy:
+     container_name: deployhub_rproxy
+     image: a0c12f9e162f
+     hostname: $HOSTNAME
+     volumes:
+       - $KEYS:/keys:Z
+     restart: always
+     environment:
+       CLIENTID: $CLIENTID
+
+   watchtower:
+    image: v2tec/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
+    command: watchtower deployhub_rproxy --interval 30
+    restart: unless-stopped
