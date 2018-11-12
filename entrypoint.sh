@@ -14,7 +14,8 @@ export PATH=$PWD/lib:$PWD/bin:$PATH
 export WEBSERVER=https://console.deployhub.com
 export HOME=$(getent passwd `whoami` | cut -d: -f6)
 cp -r /keys/* $HOME/.ssh
-chown -R omreleng $HOME/.ssh 
+chown -R omreleng $HOME/.ssh
+chmod 400 $HOME/.ssh/*
 
 echo Running DeployHub Reverse Proxy 
 
