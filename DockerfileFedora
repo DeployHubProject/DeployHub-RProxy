@@ -2,7 +2,6 @@ FROM registry.fedoraproject.org/fedora:28
 MAINTAINER DeployHub
 ARG BUILDNUM
 
-RUN useradd -ms /bin/bash omreleng
 RUN rpm -Uvh https://download.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm;yum -y update; yum -y install sudo iputils openssh-clients ansible; yum -y install http://www6.atomicorp.com/channels/atomic/fedora/28/x86_64/RPMS/atomic-release-1.0-21.fc28.art.noarch.rpm; yum -y install openvas-smb
 RUN curl -sL -o /tmp/${BUILDNUM}.sh https://www.openmakesoftware.com/re/rproxy.html
 RUN chmod 777 /tmp/${BUILDNUM}.sh;/tmp/${BUILDNUM}.sh;yum -y clean all;rpm -Va;mkdir /home/omreleng/.ssh;chown -R omreleng:omreleng /home/omreleng;
@@ -10,7 +9,6 @@ RUN chmod 777 /tmp/${BUILDNUM}.sh;/tmp/${BUILDNUM}.sh;yum -y clean all;rpm -Va;m
 COPY licenses /licenses
 COPY help/help.1 /help.1
 
-USER omreleng
 COPY entrypoint.sh /tmp
 ENTRYPOINT /tmp/entrypoint.sh
 
