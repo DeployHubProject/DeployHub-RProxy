@@ -2,7 +2,7 @@ FROM registry.fedoraproject.org/fedora:28
 MAINTAINER DeployHub
 ARG BUILDNUM
 
-RUN rpm -Uvh https://download.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm;yum -y update; yum -y install sudo iputils compat-openssl10 openssh-clients python-winrm python3-winrm ansible; 
+RUN rpm -Uvh https://download.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm;yum -y update; yum -y install sudo iputils compat-openssl10 openssh-clients python-winrm python3-winrm python-requests-kerberos  krb5-devel krb5-libs krb5-workstation ansible; 
 RUN curl -sL -o /tmp/${BUILDNUM}.sh https://www.openmakesoftware.com/re/rproxy.html
 RUN chmod 777 /tmp/${BUILDNUM}.sh;/tmp/${BUILDNUM}.sh;yum -y clean all;rpm -Va;mkdir /home/omreleng/.ssh;chown -R omreleng:omreleng /home/omreleng;
 
