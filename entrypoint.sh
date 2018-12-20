@@ -15,6 +15,7 @@ export WEBSERVER=https://console.deployhub.com
 export HOME=$(getent passwd `whoami` | cut -d: -f6)
 cp -r /keys/* $HOME/.ssh
 chown -R omreleng $HOME/.ssh 
+chmod 600 $HOME/.ssh/*
 
 echo Running DeployHub Reverse Proxy 
 
