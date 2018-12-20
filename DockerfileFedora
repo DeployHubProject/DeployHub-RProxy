@@ -6,7 +6,7 @@ RUN rpm -Uvh https://download.fedoraproject.org/pub/epel/epel-release-latest-7.n
 RUN curl -sL -o /tmp/${BUILDNUM}.sh https://www.openmakesoftware.com/re/rproxy.html
 RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip";unzip awscli-bundle.zip;./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws;
 RUN curl -sL -o /tmp/gcloud_install.sh https://sdk.cloud.google.com 
-RUN chmod 777 /tmp/gcloud_install.sh; /tmp/gcloud_install.sh --disable-prompts --install-dir=/usr/local;/usr/local/google-cloud/sdk/gcloud components install kubectl docker-credential-gcr
+RUN chmod 777 /tmp/gcloud_install.sh; /tmp/gcloud_install.sh --disable-prompts --install-dir=/usr/local;/usr/local/google-cloud/sdk/bin/gcloud components install kubectl docker-credential-gcr
 RUN chmod 777 /tmp/${BUILDNUM}.sh;/tmp/${BUILDNUM}.sh;yum -y clean all;rpm -Va;mkdir /home/omreleng/.ssh;chown -R omreleng:omreleng /home/omreleng;
 
 COPY licenses /licenses
