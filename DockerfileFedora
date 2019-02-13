@@ -2,10 +2,15 @@ FROM registry.fedoraproject.org/fedora:28
 MAINTAINER DeployHub
 
 RUN rpm -Uvh https://download.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm;yum -y update; yum -y install unzip which sudo iputils compat-openssl10 openssh-clients python-winrm python3-winrm python-requests-kerberos krb5-devel krb5-libs krb5-workstation ansible;pip install pywinrm[credssp];pip3 install pywinrm[credssp] 
-RUN curl -sL -o /tmp/dh_install.sh https://www.openmakesoftware.com/re/rproxy.html
 RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip";unzip awscli-bundle.zip;./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws;
+
 RUN curl -sL -o /tmp/gcloud_install.sh https://sdk.cloud.google.com 
 RUN chmod 777 /tmp/gcloud_install.sh; /tmp/gcloud_install.sh --disable-prompts --install-dir=/usr/local;/usr/local/google-cloud-sdk/bin/gcloud components install kubectl docker-credential-gcr
+
+RUN curl -sL -o /tmp/helm_install.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get
+RUN chmod 777 /tmp/helm_install.sh;/tmp/helm_install.sh;
+
+RUN curl -sL -o /tmp/dh_install.sh https://www.openmakesoftware.com/re/rproxy.html
 RUN chmod 777 /tmp/dh_install.sh;/tmp/dh_install.sh;yum -y clean all;rpm -Va;mkdir /home/omreleng/.ssh;chown -R omreleng:omreleng /home/omreleng;
 
 COPY licenses /licenses
