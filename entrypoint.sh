@@ -20,7 +20,7 @@ export WEBSERVER=https://console.deployhub.com
 export HOME=$(getent passwd `whoami` | cut -d: -f6)
 export DM_TARGET_USER=root
 cp -r /keys/* $HOME/.ssh
-chown -R omreleng $HOME/.ssh 
+chown -R `whoami` $HOME/.ssh 
 chmod 400 $HOME/.ssh/*
 
 echo Running DeployHub Reverse Proxy 
