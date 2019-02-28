@@ -20,11 +20,11 @@ export WEBSERVER=https://console.deployhub.com
 export HOME=$(getent passwd `whoami` | cut -d: -f6)
 export DM_TARGET_USER=root
 cp -r /keys/* $HOME/.ssh
-chown -R omreleng $HOME/.ssh 
+chown -R `whoami` $HOME/.ssh 
 chmod 400 $HOME/.ssh/*
 
 echo Running DeployHub Reverse Proxy 
 
-curl -k -sL "$WEBSERVER/dmadminweb/EngineEvent?getkeys=Y&clientid=$CLIENTID" | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["dmodbc"]' > /opt/deployhub/engine/dm.odbc
-curl -k -sL "$WEBSERVER/dmadminweb/EngineEvent?getkeys=Y&clientid=$CLIENTID" | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["dmasc"]' > /opt/deployhub/engine/dm.asc
-python /opt/deployhub/engine/lib/dhlistener.py $WEBSERVER $CLIENTID $PWD 
+curl -k -sL "$WEBSERVER/dmadminweb/EngineEvent?getkeys=Y&clientid=$CLIENTID" | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["dmodbc"])' > /opt/deployhub/engine/dm.odbc
+curl -k -sL "$WEBSERVER/dmadminweb/EngineEvent?getkeys=Y&clientid=$CLIENTID" | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["dmasc"])' > /opt/deployhub/engine/dm.asc
+python3 /opt/deployhub/engine/lib/dhlistener.py $WEBSERVER $CLIENTID $PWD 
