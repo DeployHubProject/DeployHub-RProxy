@@ -1,20 +1,32 @@
 FROM registry.fedoraproject.org/fedora:28
 MAINTAINER DeployHub
 
-RUN rpm -Uvh https://download.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm;yum -y update; yum -y install git unzip which sudo iputils compat-openssl10 openssh-clients python-winrm python3-winrm python3-PyYAML python3-certifi python-requests-kerberos krb5-devel krb5-libs krb5-workstation ansible;pip install pywinrm[credssp];pip3 install pywinrm[credssp] qtoml
-RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip";unzip awscli-bundle.zip;./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws;
+RUN rpm -Uvh https://download.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm; \
+    yum -y update; \
+    yum -y install git unzip which sudo iputils compat-openssl10 openssh-clients python-winrm python3-winrm python3-PyYAML python3-certifi python-requests-kerberos krb5-devel krb5-libs krb5-workstation ansible; \
+    pip install pywinrm[credssp]; \
+    pip3 install pywinrm[credssp] qtoml; \
+    
+    curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"; \
+    unzip awscli-bundle.zip; \
+    ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws; \
 
-RUN curl -sL -o /tmp/gcloud_install.sh https://sdk.cloud.google.com 
-RUN chmod 777 /tmp/gcloud_install.sh; /tmp/gcloud_install.sh --disable-prompts --install-dir=/usr/local;/usr/local/google-cloud-sdk/bin/gcloud components install kubectl docker-credential-gcr
+    curl -sL -o /tmp/gcloud_install.sh https://sdk.cloud.google.com; \
+    chmod 777 /tmp/gcloud_install.sh; \
+    /tmp/gcloud_install.sh --disable-prompts --install-dir=/usr/local;/usr/local/google-cloud-sdk/bin/gcloud components install kubectl docker-credential-gcr; \
 
-RUN curl -sL -o /tmp/helm_install.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get
-RUN chmod 777 /tmp/helm_install.sh;/tmp/helm_install.sh;
+    curl -sL -o /tmp/helm_install.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get; \
+    chmod 777 /tmp/helm_install.sh; \
+    /tmp/helm_install.sh;
 
-RUN curl -sL -o /tmp/dh_install.sh https://www.openmakesoftware.com/re/rproxy.html
-RUN chmod 777 /tmp/dh_install.sh;/tmp/dh_install.sh;yum -y clean all;rpm -Va;mkdir /home/omreleng/.ssh;chown -R omreleng:omreleng /home/omreleng;
-
-COPY licenses /licenses
-COPY help/help.1 /help.1
+    curl -sL -o /tmp/deployhub-pro-engine.rpm https://github.com/DeployHubProject/DeployHub-Pro/blob/master/rpms/deployhub-pro-engine.rpm?raw=true; \
+    curl -sL -o /tmp/deployhub-pro-webadmin.rpm https://github.com/DeployHubProject/DeployHub-Pro/blob/master/rpms/deployhub-pro-webadmin.rpm?raw=true; \
+    yum -y install /tmp/deployhub-pro-engine.rpm /tmp/deployhub-pro-webadmin.rpm; \
+    yum -y clean all; \
+    rm -rf /var/cache/yum; \
+    mkdir -p /home/omreleng/.ssh; \
+    mkdir -p /root/.ssh; \    
+    chown -R omreleng:omreleng /home/omreleng; 
 
 COPY entrypoint.sh /tmp
 ENTRYPOINT /tmp/entrypoint.sh
@@ -26,5 +38,5 @@ LABEL name="deployhub/deployhub_rproxy" \
       summary="DeployHub Pro" \
       description="DeployHub will perform agentless application releases" \
       url="https://wwww.deployhub.com/" \
-      run='docker run ${IMAGE}' \
-      stop='docker stop ${CONTAINER}'
+      run='docker run' \
+      stop='docker stop'
