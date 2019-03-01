@@ -24,9 +24,7 @@ RUN rpm -Uvh https://download.fedoraproject.org/pub/epel/epel-release-latest-7.n
     yum -y install /tmp/deployhub-pro-rproxy.rpm /tmp/deployhub-pro-rproxy.rpm; \
     yum -y clean all; \
     rm -rf /var/cache/yum; \
-    mkdir -p /home/omreleng/.ssh; \
-    mkdir -p /root/.ssh; \    
-    chown -R omreleng:omreleng /home/omreleng; 
+    mkdir -p /root/.ssh;     
 
 COPY entrypoint.sh /tmp
 ENTRYPOINT /tmp/entrypoint.sh
