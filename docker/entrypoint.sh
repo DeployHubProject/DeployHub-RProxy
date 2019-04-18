@@ -25,11 +25,6 @@ sudo chown -R root /root/.ssh
 sudo chmod 755 /root/.ssh
 sudo chmod 600 /root/.ssh/known*
 
-cp -r /keys/* $HOME/.ssh
-chown -R omreleng $HOME/.ssh 
-chmod 755 $HOME/.ssh
-chmod 600 $HOME/.ssh/known*
-
 echo Running DeployHub Reverse Proxy 
 
 curl -k -sL "$WEBSERVER/dmadminweb/EngineEvent?getkeys=Y&clientid=$CLIENTID" | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["dmodbc"])' > /opt/deployhub/engine/dm.odbc
