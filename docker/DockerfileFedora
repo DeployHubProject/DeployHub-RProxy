@@ -25,8 +25,8 @@ RUN curl -sL -o /tmp/helm_install.sh https://raw.githubusercontent.com/helm/helm
     chmod 777 /tmp/helm_install.sh; \
     /tmp/helm_install.sh
 
-RUN curl -sL -o /tmp/deployhub-pro-rproxy.rpm https://github.com/DeployHubProject/DeployHub-RProxy/blob/master/rpms/deployhub-pro-rproxy.rpm?raw=true; \
-    yum -y install /tmp/deployhub-pro-rproxy.rpm 
+COPY rpms/deployhub-pro-rproxy.rpm
+RUN yum -y install /tmp/deployhub-pro-rproxy.rpm 
 
 RUN yum -y clean all; \
     rm -rf /var/cache/yum; \
