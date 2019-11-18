@@ -1,11 +1,16 @@
 FROM registry.fedoraproject.org/fedora:28
 MAINTAINER DeployHub
+ENV WEBSERVER https://console.deployhub.com
+ENV DBSERVER db.deployhub.com
+ENV DBPORT 80
 
 RUN rpm -Uvh https://download.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm; \
     yum -y update; \
-    yum -y install git sudo unzip which iputils compat-openssl10 openssh-clients libnsl.i686 python-winrm python3-PyYAML python3-winrm python-requests-kerberos krb5-devel krb5-libs krb5-workstation ansible; \
-    pip install pywinrm[credssp]; \
-    pip3 install pywinrm[credssp] qtoml
+    yum -y install git sudo unzip which iputils compat-openssl10 openssh-clients libnsl.i686 samba-client python-winrm python3-PyYAML python3-winrm python-requests-kerberos krb5-devel krb5-libs krb5-workstation ansible; \
+    pip install requests-credssp pywinrm[credssp]; \
+    pip3 install requests-credssp pywinrm[credssp] qtoml; \
+    curl -sL https://raw.githubusercontent.com/DeployHubProject/win_zip/master/ansible/win_zip.py -o /usr/lib/python2.7/site-packages/ansible/modules/windows/win_zip.py; \
+    curl -sL https://raw.githubusercontent.com/DeployHubProject/win_zip/master/ansible/win_zip.ps1 -o /usr/lib/python2.7/site-packages/ansible/modules/windows/win_zip.ps1;
 
 RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"; \
     unzip awscli-bundle.zip; \
@@ -25,7 +30,11 @@ RUN curl -sL -o /tmp/deployhub-pro-rproxy.rpm https://github.com/DeployHubProjec
 
 RUN yum -y clean all; \
     rm -rf /var/cache/yum; \
-    mkdir -p /root/.ssh;     
+    mkdir -p /root/.ssh; \
+    mkdir -p /winshares; \
+    chmod -R 777  /var/lib/samba/private; \
+    chmod -R 777  /var/lib/samba/lock; \ 
+    chmod -R 775 /winshares;    
 
 COPY entrypoint.sh /tmp
 ENTRYPOINT /tmp/entrypoint.sh
