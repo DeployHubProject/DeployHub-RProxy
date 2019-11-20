@@ -25,7 +25,7 @@ RUN curl -sL -o /tmp/helm_install.sh https://raw.githubusercontent.com/helm/helm
     chmod 777 /tmp/helm_install.sh; \
     /tmp/helm_install.sh
 
-COPY rpms/deployhub-pro-rproxy.rpm
+COPY rpms/deployhub-pro-rproxy.rpm /tmp
 RUN yum -y install /tmp/deployhub-pro-rproxy.rpm 
 
 RUN yum -y clean all; \
@@ -36,7 +36,7 @@ RUN yum -y clean all; \
     chmod -R 777  /var/lib/samba/lock; \ 
     chmod -R 775 /winshares;    
 
-COPY entrypoint.sh /tmp
+COPY docker/entrypoint.sh /tmp
 ENTRYPOINT /tmp/entrypoint.sh
 
 LABEL name="deployhub/deployhub_rproxy" \
