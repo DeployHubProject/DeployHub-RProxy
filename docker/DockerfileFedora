@@ -54,6 +54,7 @@ RUN yum -y clean all; \
     chmod -R 775 /winshares;    
 
 COPY docker/entrypoint.sh /tmp
+ENV PATH "${PATH}:/usr/local/google-cloud-sdk/bin"
 ENTRYPOINT /tmp/entrypoint.sh
 
 LABEL name="deployhub/deployhub_rproxy" \
