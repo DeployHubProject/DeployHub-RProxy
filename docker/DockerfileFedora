@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:28
+FROM fedora:28
 MAINTAINER DeployHub
 ENV WEBSERVER https://console.deployhub.com
 ENV DBSERVER db.deployhub.com
